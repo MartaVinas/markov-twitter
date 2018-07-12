@@ -54,7 +54,7 @@ def make_text(chains):
 		# it would run for a very long time.
 		
 		# this code got an out of characters limit error
-		# if len(words) <= 280:
+		# if len(words) <= 100:
 		# 	word = choice(chains[key])
 		# 	words.append(word)
 		# 	key = (key[1], word)
@@ -62,13 +62,11 @@ def make_text(chains):
 		# 	break
 
 		if len(words) > 100:
-			print(len(words))
 			break
-		else:
-			word = choice(chains[key])
-			words.append(word)
-			key = (key[1], word)
-			print(len(words))
+			
+		word = choice(chains[key])
+		words.append(word)
+		key = (key[1], word)
 
 	return " ".join(words)
 
@@ -88,11 +86,16 @@ def tweet(chains):
 		access_token_secret=os.environ['TWITTER_ACCESS_TOKEN_SECRET'])
 
 	# this will print info about the credentials to make sure they're correct
-	print(api.VerifyCredentials())
+	# print(api.VerifyCredentials())
+
+	# check what we last posted
+	print('This is what you last posted: ')
+	statuses = api.GetUserTimeline(screen_name='michebot')
+	print(statuses[0].text)
 
 	# send a tweet
 	status = api.PostUpdate(make_text(chains))
-	print(status.text)
+	# print(status.text)
 
 	while True:
 		tweet = input('Enter to tweet again [q to quit] > ')
